@@ -1,0 +1,235 @@
+import joblib
+import os
+import warnings
+from sklearn.base import BaseEstimator
+
+# Suppress the warnings during the update process
+warnings.filterwarnings("ignore")
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_DIR = os.path.join(BASE_DIR, "models")
+
+# 1. Load the old models
+print("Loading old models...")
+tfidf = joblib.load(os.path.join(MODEL_DIR, "tfidf.pkl"))
+scaler = joblib.load(os.path.join(MODEL_DIR, "scaler.pkl"))
+reg_model = joblib.load(os.path.join(MODEL_DIR, "reg_model.pkl"))
+clf_model = joblib.load(os.path.join(MODEL_DIR, "clf_model.pkl"))
+label_encoder = joblib.load(os.path.join(MODEL_DIR, "label_encoder.pkl"))
+
+# 2. Re-save them immediately in the current version format
+print("Updating models to current version...")
+joblib.dump(tfidf, os.path.join(MODEL_DIR, "tfidf.pkl"))
+joblib.dump(scaler, os.path.join(MODEL_DIR, "scaler.pkl"))
+joblib.dump(reg_model, os.path.join(MODEL_DIR, "reg_model.pkl"))
+joblib.dump(clf_model, os.path.join(MODEL_DIR, "clf_model.pkl"))
+joblib.dump(label_encoder, os.path.join(MODEL_DIR, "label_encoder.pkl"))
+
+
+import re
+import numpy as np
+import streamlit as st
+from scipy.sparse import hstack
+import pandas as pd
+
+df = pd.read_json(
+    r"C:\Users\sapna\Downloads\problems_data.jsonl",
+    lines=True
+)
+
+df["final_description"] = (
+    df["title"].fillna("") +
+    df["sample_io"].fillna("").astype(str) +
+    df["url"].fillna("").astype(str) +
+    df["description"].fillna("") +
+    df["input_description"].fillna("") +
+    df["output_description"].fillna("")
+)
+
+
+st.set_page_config(
+    page_title="Problem Difficulty Predictor",
+    layout="centered"
+)
+
+st.title(" Problem Difficulty Predictor")
+st.caption("Paste a competitive programming problem to predict its difficulty.")
+
+
+# ===============================
+# FEATURE FUNCTIONS (MUST MATCH TRAINING)
+# ===============================
+df['text_length'] = df['final_description'].apply(len)
+
+def count_math_symbols(text):
+    if not isinstance(text, str):
+        return 0
+    symbols = [
+        "<=", ">=", "==", "!=", "+", "-", "*", "/", "%",
+        "<", ">", "=", "^", "|", "&",
+        "(", ")", "{", "}", "[", "]"
+    ]
+    return sum(text.count(sym) for sym in symbols)
+df['math_symbol_count'] = df['final_description'].apply(count_math_symbols)
+def clean_text(text):
+    text = str(text).lower()
+    text = re.sub(r"[^a-z0-9\s]", " ", text)
+    text = re.sub(r"\s+", " ", text)
+    return text
+
+df['clean_text'] = df['final_description'].apply(clean_text)
+df['sentence_count'] = df['final_description'].apply(
+    lambda x: len(re.findall(r'[.!?]', str(x)))
+)
+df['avg_sentence_length'] = (
+    df['text_length'] / (df['sentence_count'] + 1)
+)
+df['math_density'] = (
+    df['math_symbol_count'] / (df['text_length'] + 1)
+)
+def constraint_count(text):
+    patterns = [
+        r"constraints",
+        r"1\s*<=\s*n",
+        r"10\^",
+        r"<=\s*10",
+        r"seconds?",
+        r"memory"
+    ]
+    return sum(len(re.findall(p, text.lower())) for p in patterns)
+
+df['constraint_count'] = df['final_description'].apply(constraint_count)
+def io_complexity(text):
+    score = 0
+    score += text.lower().count("input")
+    score += text.lower().count("output")
+    score += text.lower().count("test case")
+    score += text.lower().count("multiple")
+    return score
+
+df['io_complexity'] = df['final_description'].apply(io_complexity)
+def example_count(text):
+    return len(re.findall(r"example", text.lower()))
+
+df['example_count'] = df['final_description'].apply(example_count)
+keyword_weights = {
+    "dp":5, "dynamic programming":5,
+    "segment tree":5, "fenwick":5,
+    "bitmask":4,
+    "graph":3, "dfs":3, "bfs":3,
+    "recursion":3,
+    "binary search":2,
+    "greedy":2,
+    "math":1
+}
+
+def weighted_keyword_score(text):
+    return sum(text.count(k) * w for k,w in keyword_weights.items())
+
+df["keyword_weighted_score"] = df["clean_text"].apply(weighted_keyword_score)
+
+keywords = [
+    "graph", "tree", "dp", "dynamic programming", "recursion",
+    "backtracking", "greedy", "binary search",
+    "heap", "priority queue", "segment tree", "fenwick",
+    "bitmask", "math", "modulo"
+]
+
+def keyword_frequency(text, keywords):
+    return sum(text.count(kw) for kw in keywords)
+
+df['keyword_count'] = df['clean_text'].apply(
+    lambda x: keyword_frequency(x, keywords)
+)
+def keyword_diversity(text, keywords):
+    found = {kw for kw in keywords if kw in text}
+    return len(found)
+
+df['keyword_diversity'] = df['clean_text'].apply(
+    lambda x: keyword_diversity(x, keywords)
+)
+
+df['structural_complexity'] = (
+    df['constraint_count'] +
+    df['io_complexity'] +
+    df['math_density'] * 10 +
+    df['keyword_weighted_score']
+)
+# ===============================
+# USER INPUT UI
+# ===============================
+st.subheader(" Enter Problem Details")
+
+problem_desc = st.text_area("Problem Description", height=150)
+input_desc = st.text_area("Input Description", height=120)
+output_desc = st.text_area("Output Description", height=120)
+
+# ===============================
+# PREDICTION
+# ===============================
+# ===============================
+# PREDICTION
+# ===============================
+if st.button(" Predict", use_container_width=True):
+
+    if not problem_desc and not input_desc and not output_desc:
+        st.warning("Please enter at least one field.")
+    else:
+        # 1. Prepare User Text
+        full_text = problem_desc + " " + input_desc + " " + output_desc
+        clean = clean_text(full_text)
+
+        # 2. TF-IDF features (1 row)
+        X_tfidf = tfidf.transform([clean])
+
+        # 3. Calculate Numeric Features for THIS INPUT ONLY
+        # (We use the logic you defined above, but applied to 'full_text')
+        
+        s_count = len(re.findall(r'[.!?]', full_text))
+        t_len = len(full_text)
+        avg_s_len = t_len / (s_count + 1)
+        m_sym = count_math_symbols(full_text)
+        m_den = m_sym / (t_len + 1)
+        c_cnt = constraint_count(full_text)
+        io_cx = io_complexity(full_text)
+        ex_cnt = example_count(full_text)
+        k_weight = weighted_keyword_score(clean)
+        k_div = keyword_diversity(clean, keywords)
+        
+        # Structural complexity formula
+        s_comp = c_cnt + io_cx + (m_den * 10) + k_weight
+
+        # 4. Scale the single row of features
+        # Note: Must be in the EXACT order used in training
+        user_features = [[
+            s_count, avg_s_len, m_den, c_cnt, io_cx, ex_cnt, 
+            k_weight, k_div, s_comp
+        ]]
+        
+        # Use .transform(), NOT .fit_transform()
+        numeric_scaled = scaler.transform(user_features)
+
+        # 5. Stack (Now both are 1 row, so it works!)
+        X_user = hstack([X_tfidf, numeric_scaled])
+
+        # 6. Predictions
+        score_pred = reg_model.predict(X_user.toarray())[0]
+        class_pred = clf_model.predict(X_user)[0]
+        class_label = label_encoder.inverse_transform([class_pred])[0]
+
+        # ===============================
+        # OUTPUT
+        # ===============================
+        st.markdown("---")
+        st.subheader(" Prediction Result")
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.metric("Predicted Difficulty Score", f"{score_pred:.2f}")
+
+        with col2:
+            emoji = {"easy": "🟢", "medium": "🟠", "hard": "🔴"}.get(
+                class_label.lower(), "⚪"
+            )
+            st.metric("Predicted Difficulty Class", f"{emoji} {class_label.upper()}")
