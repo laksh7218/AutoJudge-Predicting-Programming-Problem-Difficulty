@@ -3,13 +3,13 @@ import os
 import warnings
 from sklearn.base import BaseEstimator
 
-# Suppress the warnings during the update process
+# ignoring the warnings during the update process
 warnings.filterwarnings("ignore")
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_DIR = os.path.join(BASE_DIR, "models")
 
-# 1. Load the old models
+# Old models
 print("Loading old models...")
 tfidf = joblib.load(os.path.join(MODEL_DIR, "tfidf.pkl"))
 scaler = joblib.load(os.path.join(MODEL_DIR, "scaler.pkl"))
@@ -17,7 +17,7 @@ reg_model = joblib.load(os.path.join(MODEL_DIR, "reg_model.pkl"))
 clf_model = joblib.load(os.path.join(MODEL_DIR, "clf_model.pkl"))
 label_encoder = joblib.load(os.path.join(MODEL_DIR, "label_encoder.pkl"))
 
-# 2. Re-save them immediately in the current version format
+# Saving in the current version
 print("Updating models to current version...")
 joblib.dump(tfidf, os.path.join(MODEL_DIR, "tfidf.pkl"))
 joblib.dump(scaler, os.path.join(MODEL_DIR, "scaler.pkl"))
@@ -32,20 +32,6 @@ import streamlit as st
 from scipy.sparse import hstack
 import pandas as pd
 
-df = pd.read_json(
-    r"C:\Users\sapna\Downloads\problems_data.jsonl",
-    lines=True
-)
-
-df["final_description"] = (
-    df["title"].fillna("") +
-    df["sample_io"].fillna("").astype(str) +
-    df["url"].fillna("").astype(str) +
-    df["description"].fillna("") +
-    df["input_description"].fillna("") +
-    df["output_description"].fillna("")
-)
-
 
 st.set_page_config(
     page_title="Problem Difficulty Predictor",
@@ -56,10 +42,7 @@ st.title(" Problem Difficulty Predictor")
 st.caption("Paste a competitive programming problem to predict its difficulty.")
 
 
-# ===============================
-# FEATURE FUNCTIONS (MUST MATCH TRAINING)
-# ===============================
-df['text_length'] = df['final_description'].apply(len)
+# FEATURE FUNCTIONS 
 
 def count_math_symbols(text):
     if not isinstance(text, str):
@@ -70,23 +53,13 @@ def count_math_symbols(text):
         "(", ")", "{", "}", "[", "]"
     ]
     return sum(text.count(sym) for sym in symbols)
-df['math_symbol_count'] = df['final_description'].apply(count_math_symbols)
 def clean_text(text):
     text = str(text).lower()
     text = re.sub(r"[^a-z0-9\s]", " ", text)
     text = re.sub(r"\s+", " ", text)
     return text
 
-df['clean_text'] = df['final_description'].apply(clean_text)
-df['sentence_count'] = df['final_description'].apply(
-    lambda x: len(re.findall(r'[.!?]', str(x)))
-)
-df['avg_sentence_length'] = (
-    df['text_length'] / (df['sentence_count'] + 1)
-)
-df['math_density'] = (
-    df['math_symbol_count'] / (df['text_length'] + 1)
-)
+
 def constraint_count(text):
     patterns = [
         r"constraints",
@@ -98,7 +71,7 @@ def constraint_count(text):
     ]
     return sum(len(re.findall(p, text.lower())) for p in patterns)
 
-df['constraint_count'] = df['final_description'].apply(constraint_count)
+
 def io_complexity(text):
     score = 0
     score += text.lower().count("input")
@@ -107,11 +80,11 @@ def io_complexity(text):
     score += text.lower().count("multiple")
     return score
 
-df['io_complexity'] = df['final_description'].apply(io_complexity)
+
 def example_count(text):
     return len(re.findall(r"example", text.lower()))
 
-df['example_count'] = df['final_description'].apply(example_count)
+
 keyword_weights = {
     "dp":5, "dynamic programming":5,
     "segment tree":5, "fenwick":5,
@@ -126,7 +99,7 @@ keyword_weights = {
 def weighted_keyword_score(text):
     return sum(text.count(k) * w for k,w in keyword_weights.items())
 
-df["keyword_weighted_score"] = df["clean_text"].apply(weighted_keyword_score)
+
 
 keywords = [
     "graph", "tree", "dp", "dynamic programming", "recursion",
@@ -138,38 +111,24 @@ keywords = [
 def keyword_frequency(text, keywords):
     return sum(text.count(kw) for kw in keywords)
 
-df['keyword_count'] = df['clean_text'].apply(
-    lambda x: keyword_frequency(x, keywords)
-)
+
 def keyword_diversity(text, keywords):
     found = {kw for kw in keywords if kw in text}
     return len(found)
 
-df['keyword_diversity'] = df['clean_text'].apply(
-    lambda x: keyword_diversity(x, keywords)
-)
 
-df['structural_complexity'] = (
-    df['constraint_count'] +
-    df['io_complexity'] +
-    df['math_density'] * 10 +
-    df['keyword_weighted_score']
-)
-# ===============================
-# USER INPUT UI
-# ===============================
+
+
+
+
+# UI
 st.subheader(" Enter Problem Details")
-
 problem_desc = st.text_area("Problem Description", height=150)
 input_desc = st.text_area("Input Description", height=120)
 output_desc = st.text_area("Output Description", height=120)
 
-# ===============================
+
 # PREDICTION
-# ===============================
-# ===============================
-# PREDICTION
-# ===============================
 if st.button(" Predict", use_container_width=True):
 
     if not problem_desc and not input_desc and not output_desc:
@@ -217,9 +176,8 @@ if st.button(" Predict", use_container_width=True):
         class_pred = clf_model.predict(X_user)[0]
         class_label = label_encoder.inverse_transform([class_pred])[0]
 
-        # ===============================
+        
         # OUTPUT
-        # ===============================
         st.markdown("---")
         st.subheader(" Prediction Result")
 
