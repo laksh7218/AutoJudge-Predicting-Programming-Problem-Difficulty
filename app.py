@@ -1,42 +1,57 @@
-import joblib
 import os
+# 1. FIX CPU ERROR: Force joblib to use 1 core
+os.environ['LOKY_MAX_CPU_COUNT'] = '1'
+
+import joblib
 import warnings
-from sklearn.base import BaseEstimator
-
-# ignoring the warnings during the update process
-warnings.filterwarnings("ignore")
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-MODEL_DIR = os.path.join(BASE_DIR, "models")
-
-# Old models
-print("Loading old models...")
-tfidf = joblib.load(os.path.join(MODEL_DIR, "tfidf.pkl"))
-scaler = joblib.load(os.path.join(MODEL_DIR, "scaler.pkl"))
-reg_model = joblib.load(os.path.join(MODEL_DIR, "reg_model.pkl"))
-clf_model = joblib.load(os.path.join(MODEL_DIR, "clf_model.pkl"))
-label_encoder = joblib.load(os.path.join(MODEL_DIR, "label_encoder.pkl"))
-
-# Saving in the current version
-print("Updating models to current version...")
-joblib.dump(tfidf, os.path.join(MODEL_DIR, "tfidf.pkl"))
-joblib.dump(scaler, os.path.join(MODEL_DIR, "scaler.pkl"))
-joblib.dump(reg_model, os.path.join(MODEL_DIR, "reg_model.pkl"))
-joblib.dump(clf_model, os.path.join(MODEL_DIR, "clf_model.pkl"))
-joblib.dump(label_encoder, os.path.join(MODEL_DIR, "label_encoder.pkl"))
-
-
 import re
 import numpy as np
 import streamlit as st
 from scipy.sparse import hstack
 import pandas as pd
+from sklearn.base import BaseEstimator
 
-
+# 2. CONFIG MUST BE FIRST
 st.set_page_config(
     page_title="Problem Difficulty Predictor",
     layout="centered"
 )
+
+# Ignore warnings
+warnings.filterwarnings("ignore")
+
+# Define Paths
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_DIR = os.path.join(BASE_DIR, "models")
+
+# 3. FIX MEMORY CRASH: Use Caching
+# This prevents the app from reloading models every time you click a button
+@st.cache_resource
+def load_models():
+    print("Loading models into memory...")
+    try:
+        tfidf = joblib.load(os.path.join(MODEL_DIR, "tfidf.pkl"))
+        scaler = joblib.load(os.path.join(MODEL_DIR, "scaler.pkl"))
+        reg_model = joblib.load(os.path.join(MODEL_DIR, "reg_model.pkl"))
+        clf_model = joblib.load(os.path.join(MODEL_DIR, "clf_model.pkl"))
+        label_encoder = joblib.load(os.path.join(MODEL_DIR, "label_encoder.pkl"))
+        return tfidf, scaler, reg_model, clf_model, label_encoder
+    except Exception as e:
+        return None, None, None, None, None
+
+# Load the models once
+tfidf, scaler, reg_model, clf_model, label_encoder = load_models()
+
+# Stop if models failed
+if tfidf is None:
+    st.error("🚨 Error: Could not load models. Please ensure the 'models' folder exists on GitHub.")
+    st.stop()
+
+# --- APP UI START ---
+st.title("Problem Difficulty Predictor")
+st.caption("Paste a competitive programming problem to predict its difficulty.")
+
+# ... (The rest of your code: functions and UI logic remains exactly the same) ...
 
 st.title(" Problem Difficulty Predictor")
 st.caption("Paste a competitive programming problem to predict its difficulty.")
@@ -191,3 +206,4 @@ if st.button(" Predict", use_container_width=True):
                 class_label.lower(), "⚪"
             )
             st.metric("Predicted Difficulty Class", f"{emoji} {class_label.upper()}")
+
