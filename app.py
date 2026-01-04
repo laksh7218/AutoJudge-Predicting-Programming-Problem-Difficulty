@@ -47,9 +47,6 @@ if tfidf is None:
     st.error("🚨 Error: Could not load models. Please ensure the 'models' folder exists on GitHub.")
     st.stop()
 
-# --- APP UI START ---
-st.title("Problem Difficulty Predictor")
-st.caption("Paste a competitive programming problem to predict its difficulty.")
 
 # ... (The rest of your code: functions and UI logic remains exactly the same) ...
 
@@ -206,4 +203,5 @@ if st.button(" Predict", use_container_width=True):
                 class_label.lower(), "⚪"
             )
             st.metric("Predicted Difficulty Class", f"{emoji} {class_label.upper()}")
+
 
