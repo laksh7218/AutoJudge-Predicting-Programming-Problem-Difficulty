@@ -19,6 +19,7 @@ Description has 81 null values, input_description has 120 null values and output
 3) I combined all the text columns and I also tried to drop url column but it also reduced the performance of metrics like R2 score and classification accuracy and then I cleaned the text.
 4) To engineer the features I used following items:
    (a) text_length
+   
    (b) count of mathematical symbols
    (c) find number of sentences and the length of those sentences
    (d) used various constraints like memory,power of 10, memory limt..
