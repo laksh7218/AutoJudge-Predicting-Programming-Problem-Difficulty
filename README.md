@@ -20,13 +20,13 @@ Description has 81 null values, input_description has 120 null values and output
 3) I combined all the text columns and I also tried to drop url column but it also reduced the performance of metrics like R2 score and classification accuracy and then I cleaned the text.
 
 **Feature Engineering:**
-(a) text_length
-(b) count of mathematical symbols
-(c) find number of sentences and the length of those sentences
-(d) used various constraints like memory,power of 10, memory limt..
-(e) io_complexity which gives the idea that how much time it was taken to read or understand that text
-(f) find out the number of times examples word is used because more the number of examples then there is high probability that it will be tough as compared to         others
-(g) I founded that how many times a keyword (which is generally used in programming problems) repeated(keyword_count) as it helps to understand difficulty of the      problem because if its' count is higher then generally its difficulty gets increased and I gave weights to them on the basis of their capability how they make     problem tough on the scale of 1-5 (keyword_weighted_score)
-(h) And lastly I find the number of times different keyword appeared (keyword_diversity)
-(i) I used TF-IDF vectors because as this dataset is made up of texts and ML can't understand text so it helps to convert into scores which is understandable, it      helps in a way that TF represents how often a word appears and IDF tells how rare that word was in a document and I took the ngram range (1,2) so that single      and double words are surely considered
+1) text_length
+2) count of mathematical symbols
+3) find number of sentences and the length of those sentences
+4) used various constraints like memory,power of 10, memory limt..
+5) io_complexity which gives the idea that how much time it was taken to read or understand that text
+6) find out the number of times examples word is used because more the number of examples then there is high probability that it will be tough as compared to         others
+7) I founded that how many times a keyword (which is generally used in programming problems) repeated(keyword_count) as it helps to understand difficulty of the      problem because if its' count is higher then generally its difficulty gets increased and I gave weights to them on the basis of their capability how they make     problem tough on the scale of 1-5 (keyword_weighted_score)
+8) And lastly I find the number of times different keyword appeared (keyword_diversity)
+9) I used TF-IDF vectors because as this dataset is made up of texts and ML can't understand text so it helps to convert into scores which is understandable, it      helps in a way that TF represents how often a word appears and IDF tells how rare that word was in a document and I took the ngram range (1,2) so that single      and double words are surely considered
 And then finally I scaled and then combined all the numeric_features and tf-idf
