@@ -29,4 +29,5 @@ Description has 81 null values, input_description has 120 null values and output
 7) I founded that how many times a keyword (which is generally used in programming problems) repeated(keyword_count) as it helps to understand difficulty of the      problem because if its' count is higher then generally its difficulty gets increased and I gave weights to them on the basis of their capability how they make     problem tough on the scale of 1-5 (keyword_weighted_score)
 8) And lastly I find the number of times different keyword appeared (keyword_diversity)
 9) I used TF-IDF vectors because as this dataset is made up of texts and ML can't understand text so it helps to convert into scores which is understandable, it      helps in a way that TF represents how often a word appears and IDF tells how rare that word was in a document and I took the ngram range (1,2) so that single      and double words are surely considered
+
 And then finally I scaled and then combined all the numeric_features and tf-idf
