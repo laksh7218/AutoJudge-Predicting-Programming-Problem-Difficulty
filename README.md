@@ -47,12 +47,16 @@ As I need to predict class(classification) and score(regression) both so I start
    [19 297 109]
 
    [21 166  75]] 
-4) Accuracy for SVM is 47.14% and confusion matrix is [[63  36  37]
+4) Accuracy for SVM is 47.14% and confusion matrix is
+
+   [[63  36  37]
 
    [52 239 134]
 
    [47 129  86]]
-6) Accuracy for Random Forest classifier is 57.35% and confusion matrix is [[49  65  22]
+6) Accuracy for Random Forest classifier is 57.35% and confusion matrix is
+
+   [[49  65  22]
 
    [27 365  33]
 
