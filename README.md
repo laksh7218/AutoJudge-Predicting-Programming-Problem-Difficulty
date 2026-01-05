@@ -31,3 +31,29 @@ Description has 81 null values, input_description has 120 null values and output
 9) I used TF-IDF vectors because as this dataset is made up of texts and ML can't understand text so it helps to convert into scores which is understandable, it      helps in a way that TF represents how often a word appears and IDF tells how rare that word was in a document and I took the ngram range (1,2) so that single      and double words are surely considered
 
 And then finally I scaled and then combined all the numeric_features and tf-idf
+
+# Models used
+As I need to predict class(classification) and score(regression) both so I started with making various scatterplots so as to guess about the model which can be used so I started with the models given in the document and my training data is 80% and testing data is 20%:
+**For regression:**
+1) It was actually clear from my scatterplot that I should not use Linear Regression but I still used it and my R2_score was -6.57 and RMSE was 6.041
+2) Then I had two Gradient Boosting and Random Forest and I knew that Random Forest will not perform much better because it won't be able to deal with this much number of tf-idf features and decision trees will get learned independently hence its metrics were not the best, R2_score was 0.129 and RMSE was 2.049
+3) So I finally tried with Gradient Boosting to be precise Hist gradient boosting it was truly the best model to be used among all three and hence it's R2_score was 0.175 and RMSE was 1.99
+**For classification:**
+1) From scatter plot again it was intuitive that I should not use logistic regression because the data does not have linear relation and hence SVM because we know that Logistic regression and SVM share a similar baseline formulation
+2) Accuracy for logistic regression wis 50.42% and confusion matrix is [[43  51  42]
+                                                                        [19 297 109]
+                                                                        [21 166  75]] 
+3) Accuracy for SVM is 47.14% and confusion matrix is [[63  36  37]
+                                                       [52 239 134]
+                                                       [47 129  86]]
+4) Accuracy for Random Forest classifier is 57.35% and confusion matrix is [[49  65  22]
+                                                                            [27 365  33]
+                                                                            [23 181  58]]
+**Comparison Table:**
+Regression Comparison:                                                        Classification Comparison:
+                  Model  R2 Score  RMSE                                                             Model  Accuracy
+  HistGradientBoosting  0.175903   1.99                                                     Random Forest    57.35%
+         Random Forest  0.124543   2.049                                              Logistic Regression    50.42%
+     Linear Regression -6.602793   6.041                                                       Linear SVM    47.14%
+
+# Steps to run project locally
