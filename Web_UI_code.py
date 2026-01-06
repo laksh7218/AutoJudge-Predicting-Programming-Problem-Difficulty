@@ -47,8 +47,6 @@ def clean_text(text):
     text = re.sub(r"\s+", " ", text)
     return text
 
-# Label ALL dataset rows as valid (=1)
-df["is_valid"] = 1
 
 # Add fake junk samples
 junk_samples = [
