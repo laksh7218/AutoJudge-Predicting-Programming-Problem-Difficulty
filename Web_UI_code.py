@@ -46,8 +46,11 @@ def clean_text(text):
     text = re.sub(r"[^a-z0-9\s]", " ", text)
     text = re.sub(r"\s+", " ", text)
     return text
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_DIR = os.path.join(BASE_DIR, "models")
 df = pd.read_csv(
-    r"C:\Users\sapna\Downloads\problems_data.csv")
+    os.path.join(BASE_DIR, "problems_data.csv")
+)
 df["final_description"] = (
     df["title"].fillna("") +
     df["sample_io"].fillna("").astype(str) +
