@@ -80,24 +80,31 @@ In my main code which is model_code.py, first step was to generate pkl files( tf
    I gave the title and caption to the app and then set the dimesnions and position of the boxes,I considered all those features which I considered in the main_code.py so as to maintain the uniformity and to keep the code running smoothly without any error 
 
    User Input
+   
    ↓
    
 Text Preprocessing
+
    ↓
    
 TF-IDF Vectorization
+
    ↓
    
 Numeric Feature Engineering
+
    ↓
    
 Feature Scaling
+
    ↓
    
 Feature Fusion
+
    ↓
    
 Regression & Classification Inference
+
    ↓
    
 Difficulty Score and Class Output
