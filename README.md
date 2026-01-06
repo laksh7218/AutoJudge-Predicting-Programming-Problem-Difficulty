@@ -81,7 +81,7 @@ In my main code which is model_code.py, first step was to generate pkl files( tf
 
    User Input
    
-   ↓
+      ↓
    
 Text Preprocessing
 
