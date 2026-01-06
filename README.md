@@ -9,10 +9,8 @@ I used the provided dataset(https://github.com/AREEG94FAHAD/TaskComplexityEval-2
 4) output_description
 5) sample input
 6) problem class
-7) <img width="244" height="86" alt="image" src="https://github.com/user-attachments/assets/66bf5702-8e6a-4b24-92b4-e7a1b8706dd3" />
-
-8) problem score
-9) URL of the problem
+7) problem score
+8) URL of the problem
 Description has 81 null values, input_description has 120 null values and output_description has 131 null values and it has 1 duplicate value (the last row with index number 4111 is duplicate of row with index number 1233 or vice-versa) and the features are not correlated because most of them are having texts.
 
 # Approach
@@ -22,6 +20,8 @@ Description has 81 null values, input_description has 120 null values and output
 3) I combined all the text columns and I also tried to drop url column but it also reduced the performance of metrics like R2 score and classification accuracy and then I cleaned the text.
 
 **Feature Engineering:**
+<img width="764" height="483" alt="image" src="https://github.com/user-attachments/assets/5b878958-b55f-4754-8dd0-ac973a5ca932" />
+
 1) text_length
 2) count of mathematical symbols
 3) find number of sentences and the length of those sentences
@@ -93,3 +93,8 @@ Feature Fusion
 Regression & Classification Inference
    ↓
 Difficulty Score and Class Output
+
+# Author Details
+Name: Laksh Alawadhi
+Enrollment no.: 24113076
+Branch: Civil Engineering
