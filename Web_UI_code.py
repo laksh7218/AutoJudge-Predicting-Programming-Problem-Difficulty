@@ -66,10 +66,6 @@ if tfidf is None:
     st.error("🚨 Error: Could not load models. Please ensure the 'models' folder exists on GitHub.")
     st.stop()
 
-# Reject meaningless input
-if len(clean.split()) < 15:
-    st.error("❌ Input text is too short or not meaningful.")
-    st.stop()
 
 if X_tfidf.nnz == 0:
     st.error("❌ Input does not contain recognizable problem content.")
@@ -143,7 +139,6 @@ keywords = [
 
 def keyword_frequency(text, keywords):
     return sum(text.count(kw) for kw in keywords)
-
 
 def keyword_diversity(text, keywords):
     found = {kw for kw in keywords if kw in text}
