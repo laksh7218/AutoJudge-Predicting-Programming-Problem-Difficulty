@@ -46,20 +46,6 @@ def clean_text(text):
     text = re.sub(r"[^a-z0-9\s]", " ", text)
     text = re.sub(r"\s+", " ", text)
     return text
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-MODEL_DIR = os.path.join(BASE_DIR, "models")
-df = pd.read_csv(
-    os.path.join(BASE_DIR, "problems_data.csv")
-)
-df["final_description"] = (
-    df["title"].fillna("") +
-    df["sample_io"].fillna("").astype(str) +
-    df["url"].fillna("").astype(str) +
-    df["description"].fillna("") +
-    df["input_description"].fillna("") +
-    df["output_description"].fillna("")
-)
-df["clean_text"] = df["final_description"].apply(clean_text)
 
 # Label ALL dataset rows as valid (=1)
 df["is_valid"] = 1
@@ -77,7 +63,6 @@ junk_df = pd.DataFrame({
     "clean_text": junk_samples,
     "is_valid": 0
 })
-data = pd.concat([df[["clean_text", "is_valid"]], junk_df])
 # Stop if models failed
 if tfidf is None:
     st.error("🚨 Error: Could not load models. Please ensure the 'models' folder exists on GitHub.")
