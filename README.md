@@ -73,7 +73,32 @@ Regression Comparison:                                                        Cl
      Linear Regression -6.602793   6.041                                                       Linear SVM    47.14%
 
 # Steps to run project locally 
-In my main code which is model_code.py, first step was to generate pkl files( tfidf.pkl, scaler.pkl, reg_model.pkl, clf_model.pkl, label_encoder.pkl) and then there is need to go to file named app.py and then in the terminal there is need to write python -m streamlit run app.py (I used python in start because I was having an issue of location of file) then my a popup window will appear and then there I need to go to deploy section where when I will click deploy button, I firstly need to connect my github account with streamlit cloud, so I then went to site with URL(https://share.streamlit.io/) and then go to option create app and then I deployed through my github and then entered all the details but in the start I was having issues with the version of python and scikit learn hence, I created a file named requirements.txt and runtime.txt and then my app got deployed and I also tested through some of problems provided in the dataset
+In my main code which is model_code.py, first step was to generate pkl files( tfidf.pkl, scaler.pkl, reg_model.pkl, clf_model.pkl, label_encoder.pkl) and then there is need to go to file named Web_UI_code.py and then in the terminal there is need to write python -m streamlit run app.py (I used python in start of command because I was having an issue of location of file) then my a popup window will appear and then there I need to go to deploy section where when I will click deploy button, I firstly need to connect my github account with streamlit cloud, so I then went to site with URL(https://share.streamlit.io/) and then go to option create app and then I deployed through my github and then entered all the details but in the start I was having issues with the version of python and scikit learn hence, I created a file named requirements.txt and runtime.txt and then my app got deployed and I also tested through some of problems provided in the dataset
+
+-Generating pkl files
+```bash
+python model_code.py
+``` 
+-Clone the repository
+```bash
+git clone https://github.com/laksh7218/autojudge-predicting-programming-problem-difficulty.git
+cd autojudge-predicting-programming-problem-difficulty
+```
+-Create virtual environment
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+Install dependencies
+```bash
+pip install -r requirements.txt
+```
+Run the web application and open in browser
+```bash
+python -m streamlit run Web_UI_code.py
+```
+
+
 
 **App URL:** https://autojudge-predicting-programming-problem-difficulty-vgep9awfjp.streamlit.app/
 
@@ -111,13 +136,13 @@ In my main code which is model_code.py, first step was to generate pkl files( tf
          Difficulty Score and Class Output
 
 # Files overview
-     saved trained models                             models
-             |                                           |
-             |------ clf_model.pkl                       |------ clf_model.pkl
-             |------ reg_model.pkl                       |------ label_encoder.pkl
-                                                         |------ reg_model.pkl
-                                                         |------ scaler.pkl
-                                                         |------ tfidf.pkl
+     saved trained models                             models                                        complete_source_code
+             |                                           |                                                   |
+             |------ clf_model.pkl                       |------ clf_model.pkl                               |------classification_model_code.py
+             |------ reg_model.pkl                       |------ label_encoder.pkl                           |------data_preprocessing_code.py
+                                                         |------ reg_model.pkl                               |------feature_extraction_code.py
+                                                         |------ scaler.pkl                                  |------regression_model_code.py  
+                                                         |------ tfidf.pkl                                   |------scatterplot_codes.py  
 
 # Author Details
 Name: Laksh Alawadhi
@@ -125,3 +150,7 @@ Name: Laksh Alawadhi
 Enrollment no.: 24113076
 
 Branch: Civil Engineering
+
+# Demo Video
+
+# Project Report
