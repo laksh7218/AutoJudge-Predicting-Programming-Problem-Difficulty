@@ -21,7 +21,7 @@ Description has 81 null values, input_description has 120 null values and output
 
 **Feature Engineering:**
 
-<img width="500" height="300" alt="image" src="https://github.com/user-attachments/assets/5b878958-b55f-4754-8dd0-ac973a5ca932" />
+                     <img width="500" height="300" alt="image" src="https://github.com/user-attachments/assets/5b878958-b55f-4754-8dd0-ac973a5ca932" />
 
 1) text_length
 2) count of mathematical symbols
