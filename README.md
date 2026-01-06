@@ -9,8 +9,10 @@ I used the provided dataset(https://github.com/AREEG94FAHAD/TaskComplexityEval-2
 4) output_description
 5) sample input
 6) problem class
-7) problem score
-8) URL of the problem
+7) <img width="244" height="86" alt="image" src="https://github.com/user-attachments/assets/66bf5702-8e6a-4b24-92b4-e7a1b8706dd3" />
+
+8) problem score
+9) URL of the problem
 Description has 81 null values, input_description has 120 null values and output_description has 131 null values and it has 1 duplicate value (the last row with index number 4111 is duplicate of row with index number 1233 or vice-versa) and the features are not correlated because most of them are having texts.
 
 # Approach
@@ -61,6 +63,7 @@ As I need to predict class(classification) and score(regression) both so I start
    [27 365  33]
 
    [23 181  58]]
+   
 **Comparison Table:**
 Regression Comparison:                                                        Classification Comparison:
                   Model  R2 Score  RMSE                                                             Model  Accuracy
@@ -68,4 +71,25 @@ Regression Comparison:                                                        Cl
          Random Forest  0.124543   2.049                                              Logistic Regression    50.42%
      Linear Regression -6.602793   6.041                                                       Linear SVM    47.14%
 
-# Steps to run project locally
+# Steps to run project locally 
+In my main code which is model_code.py, first step was to generate pkl files( tfidf.pkl, scaler.pkl, reg_model.pkl, clf_model.pkl, label_encoder.pkl) and then there is need to go to file named app.py and then in the terminal there is need to write python -m streamlit run app.py (I used python in start because I was having an issue of location of file) then my a popup window will appear and then there I need to go to deploy section where when I will click deploy button, I firstly need to connect my github account with streamlit cloud, so I then went to site with URL(https://share.streamlit.io/) and then go to option create app and then I deployed through my github and then entered all the details but in the start I was having issues with the version of python and scikit learn hence, I created a file named requirements.txt and runtime.txt and then my app got deployed and I also tested through some of problems provided in the dataset
+**App URL:** https://autojudge-predicting-programming-problem-difficulty-earbijshou.streamlit.app/
+
+# Web interface explanation 
+   I gave the title and caption to the app and then set the dimesnions and position of the boxes,I considered all those features which I considered in the main_code.py so as to maintain the uniformity and to keep the code running smoothly without any error 
+
+   User Input
+   ↓
+Text Preprocessing
+   ↓
+TF-IDF Vectorization
+   ↓
+Numeric Feature Engineering
+   ↓
+Feature Scaling
+   ↓
+Feature Fusion
+   ↓
+Regression & Classification Inference
+   ↓
+Difficulty Score and Class Output
