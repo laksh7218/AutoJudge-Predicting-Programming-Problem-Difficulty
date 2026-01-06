@@ -48,7 +48,7 @@ def clean_text(text):
     text = re.sub(r"\s+", " ", text)
     return text
 
-df["clean_text"] = df["full_text"].apply(clean_text)
+df["clean_text"] = df["final_description"].apply(clean_text)
 
 # Label ALL dataset rows as valid (=1)
 df["is_valid"] = 1
