@@ -164,64 +164,71 @@ output_desc = st.text_area("Output Description", height=120)
 # PREDICTION
 if st.button(" Predict", use_container_width=True):
 
+    #  Empty input check
     if not problem_desc and not input_desc and not output_desc:
         st.warning("Please enter at least one field.")
-    else:
-        # 1. Prepare User Text
-        full_text = problem_desc + " " + input_desc + " " + output_desc
-        clean = clean_text(full_text)
+        st.stop()
 
-        # 2. TF-IDF features (1 row)
-        X_tfidf = tfidf.transform([clean])
+    #  Combine input
+    full_text = problem_desc + " " + input_desc + " " + output_desc
 
-        # 3. Calculate Numeric Features for THIS INPUT ONLY
-        # (We use the logic you defined above, but applied to 'full_text')
-        
-        s_count = len(re.findall(r'[.!?]', full_text))
-        t_len = len(full_text)
-        avg_s_len = t_len / (s_count + 1)
-        m_sym = count_math_symbols(full_text)
-        m_den = m_sym / (t_len + 1)
-        c_cnt = constraint_count(full_text)
-        io_cx = io_complexity(full_text)
-        ex_cnt = example_count(full_text)
-        k_weight = weighted_keyword_score(clean)
-        k_div = keyword_diversity(clean, keywords)
-        
-        # Structural complexity formula
-        s_comp = c_cnt + io_cx + (m_den * 10) + k_weight
+    # Clean text
+    clean = clean_text(full_text)
 
-        # 4. Scale the single row of features
-        # Note: Must be in the EXACT order used in training
-        user_features = [[
-            s_count, avg_s_len, m_den, c_cnt, io_cx, ex_cnt, 
-            k_weight, k_div, s_comp
-        ]]
-        
-        # Use .transform(), NOT .fit_transform()
-        numeric_scaled = scaler.transform(user_features)
+    #  Meaningful length check
+    if len(clean.split()) < 15:
+        st.error("❌ Input text is too short or not meaningful.")
+        st.stop()
 
-        # 5. Stack (Now both are 1 row, so it works!)
-        X_user = hstack([X_tfidf, numeric_scaled])
+    #  TF-IDF transform
+    X_tfidf = tfidf.transform([clean])
 
-        # 6. Predictions
-        score_pred = reg_model.predict(X_user.toarray())[0]
-        class_pred = clf_model.predict(X_user)[0]
-        class_label = label_encoder.inverse_transform([class_pred])[0]
+    #  Vocabulary check
+    if X_tfidf.nnz == 0:
+        st.error("❌ Input does not contain recognizable problem content.")
+        st.stop()
 
-        
-        # OUTPUT
-        st.markdown("---")
-        st.subheader(" Prediction Result")
+    #  Numeric feature extraction
+    s_count = len(re.findall(r'[.!?]', full_text))
+    t_len = len(full_text)
+    avg_s_len = t_len / (s_count + 1)
+    m_sym = count_math_symbols(full_text)
+    m_den = m_sym / (t_len + 1)
+    c_cnt = constraint_count(full_text)
+    io_cx = io_complexity(full_text)
+    ex_cnt = example_count(full_text)
+    k_weight = weighted_keyword_score(clean)
+    k_div = keyword_diversity(clean, keywords)
 
-        col1, col2 = st.columns(2)
+    s_comp = c_cnt + io_cx + (m_den * 10) + k_weight
 
-        with col1:
-            st.metric("Predicted Difficulty Score", f"{score_pred:.2f}")
+    user_features = [[
+        s_count, avg_s_len, m_den, c_cnt, io_cx, ex_cnt,
+        k_weight, k_div, s_comp
+    ]]
 
-        with col2:
-            emoji = {"easy": "🟢", "medium": "🟠", "hard": "🔴"}.get(
-                class_label.lower(), "⚪"
-            )
-            st.metric("Predicted Difficulty Class", f"{emoji} {class_label.upper()}")
+    numeric_scaled = scaler.transform(user_features)
+
+    X_user = hstack([X_tfidf, numeric_scaled])
+
+    #  Predictions
+    score_pred = reg_model.predict(X_user.toarray())[0]
+    class_pred = clf_model.predict(X_user)[0]
+    class_label = label_encoder.inverse_transform([class_pred])[0]
+
+    #  Output
+    st.markdown("---")
+    st.subheader(" Prediction Result")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.metric("Predicted Difficulty Score", f"{score_pred:.2f}")
+
+    with col2:
+        emoji = {"easy": "🟢", "medium": "🟠", "hard": "🔴"}.get(
+            class_label.lower(), "⚪"
+        )
+        st.metric("Predicted Difficulty Class", f"{emoji} {class_label.upper()}")
+
 
