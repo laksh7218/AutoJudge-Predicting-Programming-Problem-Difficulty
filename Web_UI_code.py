@@ -149,11 +149,6 @@ def keyword_diversity(text, keywords):
     found = {kw for kw in keywords if kw in text}
     return len(found)
 
-
-
-
-
-
 # UI
 st.subheader(" Enter Problem Details")
 problem_desc = st.text_area("Problem Description", height=150)
@@ -211,7 +206,7 @@ if st.button(" Predict", use_container_width=True):
 
     X_user = hstack([X_tfidf, numeric_scaled])
 
-    #  Predictions
+#  Predictions
     score_pred = reg_model.predict(X_user.toarray())[0]
     class_pred = clf_model.predict(X_user)[0]
     class_label = label_encoder.inverse_transform([class_pred])[0]
