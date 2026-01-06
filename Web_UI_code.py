@@ -67,9 +67,6 @@ if tfidf is None:
     st.stop()
 
 
-if X_tfidf.nnz == 0:
-    st.error("❌ Input does not contain recognizable problem content.")
-    st.stop()
 
 # ... (The rest of your code: functions and UI logic remains exactly the same) ...
 
