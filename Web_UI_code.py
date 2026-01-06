@@ -42,6 +42,31 @@ def load_models():
 # Load the models once
 tfidf, scaler, reg_model, clf_model, label_encoder = load_models()
 
+def clean_text(text):
+    text = text.lower()
+    text = re.sub(r"[^a-z0-9\s]", " ", text)
+    text = re.sub(r"\s+", " ", text)
+    return text
+
+df["clean_text"] = df["full_text"].apply(clean_text)
+
+# Label ALL dataset rows as valid (=1)
+df["is_valid"] = 1
+
+# Add fake junk samples
+junk_samples = [
+    "asdfgh qwerty",
+    "random text only",
+    "hello how are you",
+    "this is not a coding problem",
+    "abcdefg xyz"
+]
+
+junk_df = pd.DataFrame({
+    "clean_text": junk_samples,
+    "is_valid": 0
+})
+data = pd.concat([df[["clean_text", "is_valid"]], junk_df])
 # Stop if models failed
 if tfidf is None:
     st.error("🚨 Error: Could not load models. Please ensure the 'models' folder exists on GitHub.")
@@ -73,12 +98,6 @@ def count_math_symbols(text):
         "(", ")", "{", "}", "[", "]"
     ]
     return sum(text.count(sym) for sym in symbols)
-def clean_text(text):
-    text = str(text).lower()
-    text = re.sub(r"[^a-z0-9\s]", " ", text)
-    text = re.sub(r"\s+", " ", text)
-    return text
-
 
 def constraint_count(text):
     patterns = [
