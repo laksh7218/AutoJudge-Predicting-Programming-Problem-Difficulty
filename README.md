@@ -110,6 +110,15 @@ In my main code which is model_code.py, first step was to generate pkl files( tf
    
          Difficulty Score and Class Output
 
+# Files overview
+     saved trained models                             models
+             |                                           |
+             |------ clf_model.pkl                       |------ clf_model.pkl
+             |------ reg_model.pkl                       |------ label_encoder.pkl
+                                                         |------ reg_model.pkl
+                                                         |------ scaler.pkl
+                                                         |------ tfidf.pkl
+
 # Author Details
 Name: Laksh Alawadhi
 
