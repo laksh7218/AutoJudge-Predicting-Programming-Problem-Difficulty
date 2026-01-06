@@ -45,25 +45,25 @@ As I need to predict class(classification) and score(regression) both so I start
 1) From scatter plot again it was intuitive that I should not use logistic regression because the data does not have linear relation and hence SVM because we know that Logistic regression and SVM share a similar baseline formulation
 2) Accuracy for logistic regression wis 50.42% and confusion matrix is
 
-   [[43  51  42]
+        [[43  51  42]
 
-   [19 297 109]
+         [19 297 109]
 
-   [21 166  75]] 
+         [21 166  75]] 
 4) Accuracy for SVM is 47.14% and confusion matrix is
 
-   [[63  36  37]
+        [[63  36  37]
 
-   [52 239 134]
+         [52 239 134]
 
-   [47 129  86]]
+         [47 129  86]]
 6) Accuracy for Random Forest classifier is 57.35% and confusion matrix is
 
-   [[49  65  22]
+        [[49  65  22]
 
-   [27 365  33]
+         [27 365  33]
 
-   [23 181  58]]
+         [23 181  58]]
    
 **Comparison Table:**
 Regression Comparison:                                                        Classification Comparison:
@@ -79,35 +79,35 @@ In my main code which is model_code.py, first step was to generate pkl files( tf
 # Web interface explanation 
    I gave the title and caption to the app and then set the dimesnions and position of the boxes,I considered all those features which I considered in the main_code.py so as to maintain the uniformity and to keep the code running smoothly without any error 
 
-   User Input
+                 User Input
    
-      ↓
+                     ↓
    
-Text Preprocessing
+              Text Preprocessing
 
-   ↓
+                     ↓
    
-TF-IDF Vectorization
+            TF-IDF Vectorization
 
-   ↓
+                     ↓
    
-Numeric Feature Engineering
+          Numeric Feature Engineering
 
-   ↓
+                     ↓
    
-Feature Scaling
+              Feature Scaling
 
-   ↓
+                     ↓
    
-Feature Fusion
+              Feature Fusion
 
-   ↓
+                     ↓
    
-Regression & Classification Inference
+         Regression & Classification Inference
 
-   ↓
+                     ↓
    
-Difficulty Score and Class Output
+         Difficulty Score and Class Output
 
 # Author Details
 Name: Laksh Alawadhi
