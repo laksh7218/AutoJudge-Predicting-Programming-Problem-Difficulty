@@ -81,21 +81,30 @@ In my main code which is model_code.py, first step was to generate pkl files( tf
 
    User Input
    ↓
+   
 Text Preprocessing
    ↓
+   
 TF-IDF Vectorization
    ↓
+   
 Numeric Feature Engineering
    ↓
+   
 Feature Scaling
    ↓
+   
 Feature Fusion
    ↓
+   
 Regression & Classification Inference
    ↓
+   
 Difficulty Score and Class Output
 
 # Author Details
 Name: Laksh Alawadhi
+
 Enrollment no.: 24113076
+
 Branch: Civil Engineering
