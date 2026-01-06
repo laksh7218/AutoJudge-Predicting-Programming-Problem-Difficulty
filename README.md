@@ -11,6 +11,7 @@ I used the provided dataset(https://github.com/AREEG94FAHAD/TaskComplexityEval-2
 6) problem class
 7) problem score
 8) URL of the problem
+   
 Description has 81 null values, input_description has 120 null values and output_description has 131 null values and it has 1 duplicate value (the last row with index number 4111 is duplicate of row with index number 1233 or vice-versa) and the features are not correlated because most of them are having texts.
 
 # Approach
