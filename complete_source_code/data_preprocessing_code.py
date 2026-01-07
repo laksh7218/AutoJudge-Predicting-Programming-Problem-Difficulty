@@ -1,7 +1,7 @@
 import pandas as pd
 # LOAD DATA
 df = pd.read_csv(
-    r"C:\Users\sapna\Downloads\problems_data.csv")
+    r"C:\Users\sapna\Downloads\dataset.csv")
 
 print(df.isnull().sum())
 print(df.duplicated().sum())
@@ -25,4 +25,5 @@ df.drop(
     ],
     inplace=True
 )
+
 print(df.info())
