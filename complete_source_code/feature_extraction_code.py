@@ -6,7 +6,7 @@ os.environ['LOKY_MAX_CPU_COUNT'] = '1'
 
 # LOAD DATA
 df = pd.read_csv(
-    r"C:\Users\sapna\Downloads\problems_data.csv")
+    r"C:\Users\sapna\Downloads\dataset.csv")
 
 print(df.isnull().sum())
 print(df.duplicated().sum())
@@ -163,3 +163,4 @@ numeric_scaled = scaler.fit_transform(
 )
 
 X_final = hstack([X_tfidf, numeric_scaled])
+
