@@ -56,8 +56,8 @@ As I need to predict class(classification) and score(regression) both so I start
    RMSE = 1.99
 ```
 **For classification:**
-1) From scatter plot again it was intuitive that I should not use logistic regression because the data does not have linear relation and hence SVM because we know that Logistic regression and SVM share a similar baseline formulation
-2) For logistic regression:
+1) From scatter plot again it was intuitive that I should not use logistic regression because the data does not seem to be linearly separable, hence
+For logistic regression:
 ```bash
    Classification accuracy = 50.42%
 
@@ -67,7 +67,7 @@ As I need to predict class(classification) and score(regression) both so I start
 
                      [21 166  75]]
 ```
-3) For SVM: 
+2) For SVM: 
 ```bash
    Classification accuracy = 47.14%
    Confusion matrix= [[63  36  37]
@@ -76,7 +76,7 @@ As I need to predict class(classification) and score(regression) both so I start
 
                      [47 129  86]]
 ```
-6) For Random Forest classifier is 57.35% and confusion matrix is
+3) For Random Forest classifier is 57.35% and confusion matrix is
 ```bash
    Classification accuracy = 57.35%
    Confusion matrix= [[49  65  22]
