@@ -16,7 +16,7 @@ Description has 81 null values, input_description has 120 null values and output
 
 # Approach
 **Data Preprocessing:**
-1) I firstly converted json file to csv becuase I am more comfortable with csv and then I found if there exist any null values or duplicate values.
+1) I firstly converted the provided json file to csv and then I found if there exist any null values or duplicate values.
 2) As there were some null values as mentioned above I replaced them with " " and I tried to drop the duplicate row but it reduced the value of R2 score for regression and decreased the classification accuracy so     I did not execute this
 3) I combined all the text columns and I also tried to drop url column but it also reduced the performance of metrics like R2 score and classification accuracy and then I cleaned the text.
 
