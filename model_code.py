@@ -203,7 +203,28 @@ plt.scatter(df['keyword_count'], df['problem_class'])
 plt.xlabel("Keyword Frequency")
 plt.ylabel("Problem class")
 plt.show()
+fig, ax1 = plt.subplots(figsize=(9, 6))
 
+# Plot regression target
+ax1.scatter(
+    df['keyword_count'],
+    df['problem_score'],
+    label='Problem Score'
+)
+ax1.set_xlabel("Number of keywords")
+ax1.set_ylabel("Problem Score")
+
+# Second axis for classification target
+ax2 = ax1.twinx()
+ax2.scatter(
+    df['keyword_count'],
+    df['problem_class'],
+    color="red",
+    label='Problem Class'
+)
+ax2.set_ylabel("Problem Class")
+
+plt.show()
 # TF-IDF FEATURES
 from sklearn.feature_extraction.text import TfidfVectorizer
 
