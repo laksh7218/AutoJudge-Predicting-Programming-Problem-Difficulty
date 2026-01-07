@@ -56,14 +56,15 @@ As I need to predict class(classification) and score(regression) both so I start
 **For classification:**
 1) From scatter plot again it was intuitive that I should not use logistic regression because the data does not have linear relation and hence SVM because we know that Logistic regression and SVM share a similar baseline formulation
 2) For logistic regression:
-   ```bash
+```bash
    Classification accuracy = 50.42%
 
    Confusion matrix= [[43  51  42]
 
                      [19 297 109]
 
-                     [21 166  75]] 
+                     [21 166  75]]
+```
 3) For SVM: 
 ```bash
    Classification accuracy = 47.14%
