@@ -95,7 +95,7 @@ For logistic regression:
      Linear Regression -6.602793   6.041                                                       Linear SVM    47.14%
 ```
 # Steps to run project locally 
-In my main code which is model_code.py, first step was to generate pkl files( tfidf.pkl, scaler.pkl, reg_model.pkl, clf_model.pkl, label_encoder.pkl) and then there is need to go to file named Web_UI_code.py and then in the terminal there is need to write python -m streamlit run Web_UI_code.py (I used python in start of command because I was having an issue of location of file) then my a popup window will appear and then there I need to go to deploy section where when I will click deploy button, I firstly need to connect my github account with streamlit cloud, so I then went to site with URL(https://share.streamlit.io/) and then go to option create app and then I deployed through my github and then entered all the details but in the start I was having issues with the version of python and scikit learn hence, I created a file named requirements.txt and runtime.txt and then my app got deployed and I also tested through some of problems provided in the dataset
+In my main code which is model_code.py, first step was to generate pkl files( tfidf.pkl, scaler.pkl, reg_model.pkl, clf_model.pkl, label_encoder.pkl) and then there is need to go to file named Web_UI_code.py and then in the terminal there is need to write python -m streamlit run Web_UI_code.py (I used python in start of command because I was having an issue of location of file) then a popup window will appear and there I need to go to deploy section where when I will click deploy button, I firstly need to connect my github account with streamlit cloud, so I then went to site with URL(https://share.streamlit.io/) and then go to option create app and then I deployed through my github and then entered all the details but in the start I was having issues with the version of python and scikit learn hence, I created a file named requirements.txt and runtime.txt and then my app got deployed and I also tested through some of problems provided in the dataset
 
 - Generating pkl files
 ```bash
@@ -123,7 +123,8 @@ python -m streamlit run Web_UI_code.py
 **App URL:** https://autojudge-predicting-programming-problem-difficulty-vgep9awfjp.streamlit.app/
 
 # Web interface explanation 
-   I gave the title and caption to the app and then set the dimesnions and position of the boxes,I considered all those features which I considered in the main_code.py so as to maintain the uniformity and to keep the code running smoothly without any error 
+   I gave the title and caption to the app and then set the dimesnions and position of the boxes and all those features were considered which I considered in the main_code.py so as to maintain the uniformity and to keep the code running smoothly without any error 
+  A validation mechanism was incorporated into the codebase to restrict random or unstructured input descriptions.
 
                  User Input
    
