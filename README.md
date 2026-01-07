@@ -34,7 +34,7 @@ Description has 81 null values, input_description has 120 null values and output
 8) And lastly I find the number of times different keyword appeared (keyword_diversity)
 9) I used TF-IDF vectors because as this dataset is made up of texts and ML can't understand text so it helps to convert into scores which is understandable, it      helps in a way that TF represents how often a word appears and IDF tells how rare that word was in a document and I took the ngram range (1,2) so that single      and double words are surely considered
 
-And then finally I scaled and then combined all the numeric_features and tf-idf
+And then finally I scaled the numeric_features and then combined these with tf-idf
 
 # Models used
 As I need to predict class(classification) and score(regression) both so I started with making various scatterplots so as to guess about the model which can be used so I started with the models given in the document and my training data is 80% and testing data is 20%:
