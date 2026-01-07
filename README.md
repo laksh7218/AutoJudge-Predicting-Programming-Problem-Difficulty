@@ -134,11 +134,11 @@ python -m streamlit run Web_UI_code.py
 
                      ↓
    
-            TF-IDF Vectorization
+             Feature Engineering
 
                      ↓
    
-          Numeric Feature Engineering
+             TF-IDF Vectorization
 
                      ↓
    
