@@ -86,8 +86,9 @@ For logistic regression:
                      [23 181  58]]
    ```
 **Comparison Table:**
-Regression Comparison:                                                        Classification Comparison:
-```bash                 
+
+```bash
+              Regression Comparison                                                          Classification Comparison                
                   Model  R2 Score  RMSE                                                             Model  Accuracy
   HistGradientBoosting  0.175903   1.99                                                     Random Forest    57.35%
          Random Forest  0.124543   2.049                                              Logistic Regression    50.42%
