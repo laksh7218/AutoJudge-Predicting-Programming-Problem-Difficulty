@@ -122,6 +122,32 @@ plt.xlabel("Number of Mathematical Symbols")
 plt.ylabel("Problem class")
 plt.show()
 
+fig, ax1 = plt.subplots(figsize=(8, 6))
+
+# Plot problem_score (Regression target)
+ax1.scatter(
+    df['math_symbol_count'],
+    df['problem_score'],
+    color='tab:blue',
+    label='Problem Score'
+)
+ax1.set_xlabel("Number of Mathematical Symbols")
+ax1.set_ylabel("Problem Score", color='tab:blue')
+ax1.tick_params(axis='y', labelcolor='tab:blue')
+
+# Second Y-axis for problem_class (Classification target)
+ax2 = ax1.twinx()
+ax2.scatter(
+    df['math_symbol_count'],
+    df['problem_class'],
+    color='tab:red',
+    label='Problem Class'
+)
+ax2.set_ylabel("Problem Class", color='tab:red')
+ax2.tick_params(axis='y', labelcolor='tab:red')
+
+plt.title("Relationship Between Math Symbol Count and Targets")
+plt.show()
 # KEYWORD FEATURES
 keywords = [
     "graph", "tree", "dp", "dynamic programming", "recursion",
@@ -168,3 +194,4 @@ plt.scatter(df['keyword_count'], df['problem_class'])
 plt.xlabel("Keyword Frequency")
 plt.ylabel("Problem class")
 plt.show()
+
