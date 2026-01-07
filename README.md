@@ -87,11 +87,12 @@ For logistic regression:
    ```
 **Comparison Table:**
 Regression Comparison:                                                        Classification Comparison:
+```bash                 
                   Model  R2 Score  RMSE                                                             Model  Accuracy
   HistGradientBoosting  0.175903   1.99                                                     Random Forest    57.35%
          Random Forest  0.124543   2.049                                              Logistic Regression    50.42%
      Linear Regression -6.602793   6.041                                                       Linear SVM    47.14%
-
+```
 # Steps to run project locally 
 In my main code which is model_code.py, first step was to generate pkl files( tfidf.pkl, scaler.pkl, reg_model.pkl, clf_model.pkl, label_encoder.pkl) and then there is need to go to file named Web_UI_code.py and then in the terminal there is need to write python -m streamlit run app.py (I used python in start of command because I was having an issue of location of file) then my a popup window will appear and then there I need to go to deploy section where when I will click deploy button, I firstly need to connect my github account with streamlit cloud, so I then went to site with URL(https://share.streamlit.io/) and then go to option create app and then I deployed through my github and then entered all the details but in the start I was having issues with the version of python and scikit learn hence, I created a file named requirements.txt and runtime.txt and then my app got deployed and I also tested through some of problems provided in the dataset
 
