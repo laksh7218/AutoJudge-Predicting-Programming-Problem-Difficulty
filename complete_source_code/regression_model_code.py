@@ -14,7 +14,7 @@ from sklearn.preprocessing import LabelEncoder
 
 # LOAD DATA
 df = pd.read_csv(
-    r"C:\Users\sapna\Downloads\problems_data.csv")
+    r"C:\Users\sapna\Downloads\dataset.csv")
 
 print(df.isnull().sum())
 print(df.duplicated().sum())
@@ -213,4 +213,5 @@ print("RF R2:", r2_score(y_reg_test, y_rf_reg_pred))
 
 print("HistGB RMSE:", np.sqrt(mean_squared_error(y_reg_test, y_reg_pred)))
 print("Linear RMSE:",np.sqrt(mean_squared_error(y_reg_test, y_lin_pred)))
+
 print("RF RMSE:", np.sqrt(mean_squared_error(y_reg_test, y_rf_reg_pred)))
