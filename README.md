@@ -43,8 +43,7 @@ As I need to predict class(classification) and score(regression) both so I start
 1) It was actually clear from my scatterplot that I should not use Linear Regression but I still used it and hence
    ```bash
    R2_score = -6.57
-   RMSE = 6.041
-     
+   RMSE = 6.041   
 2) Then I had two Gradient Boosting and Random Forest and I knew that Random Forest will not perform much better because it won't be able to deal with this much number of tf-idf features and decision trees will get learned independently hence its metrics were not the best,
    ```bash
    R2_score = 0.129
@@ -56,28 +55,33 @@ As I need to predict class(classification) and score(regression) both so I start
 
 **For classification:**
 1) From scatter plot again it was intuitive that I should not use logistic regression because the data does not have linear relation and hence SVM because we know that Logistic regression and SVM share a similar baseline formulation
-2) Accuracy for logistic regression wis 50.42% and confusion matrix is
+2) For logistic regression:
+   ```bash
+   Classification accuracy = 50.42%
 
-        [[43  51  42]
+   Confusion matrix= [[43  51  42]
 
-         [19 297 109]
+                     [19 297 109]
 
-         [21 166  75]] 
-4) Accuracy for SVM is 47.14% and confusion matrix is
+                     [21 166  75]] 
+3) For SVM: 
+```bash
+   Classification accuracy = 47.14%
+   Confusion matrix= [[63  36  37]
 
-        [[63  36  37]
+                     [52 239 134]
 
-         [52 239 134]
+                     [47 129  86]]
+```
+6) For Random Forest classifier is 57.35% and confusion matrix is
+```bash
+   Classification accuracy = 57.35%
+   Confusion matrix= [[49  65  22]
 
-         [47 129  86]]
-6) Accuracy for Random Forest classifier is 57.35% and confusion matrix is
+                     [27 365  33]
 
-        [[49  65  22]
-
-         [27 365  33]
-
-         [23 181  58]]
-   
+                     [23 181  58]]
+   ```
 **Comparison Table:**
 Regression Comparison:                                                        Classification Comparison:
                   Model  R2 Score  RMSE                                                             Model  Accuracy
