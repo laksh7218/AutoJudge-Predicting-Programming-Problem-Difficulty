@@ -40,9 +40,19 @@ And then finally I scaled the numeric_features and then combined these with tf-i
 As I need to predict class(classification) and score(regression) both so I started with making various scatterplots so as to guess about the model which can be used so I started with the models given in the document and my training data is 80% and testing data is 20%:
 
 **For regression:**
-1) It was actually clear from my scatterplot that I should not use Linear Regression but I still used it and my R2_score was -6.57 and RMSE was 6.041
-2) Then I had two Gradient Boosting and Random Forest and I knew that Random Forest will not perform much better because it won't be able to deal with this much number of tf-idf features and decision trees will get learned independently hence its metrics were not the best, R2_score was 0.129 and RMSE was 2.049
-3) So I finally tried with Gradient Boosting to be precise Hist gradient boosting it was truly the best model to be used among all three and hence it's R2_score was 0.175 and RMSE was 1.99
+1) It was actually clear from my scatterplot that I should not use Linear Regression but I still used it and hence
+   ```bash
+   R2_score = -6.57
+   RMSE = 6.041
+     
+2) Then I had two Gradient Boosting and Random Forest and I knew that Random Forest will not perform much better because it won't be able to deal with this much number of tf-idf features and decision trees will get learned independently hence its metrics were not the best,
+   ```bash
+   R2_score = 0.129
+   RMSE = 2.049
+3) So I finally tried with Gradient Boosting to be precise Hist gradient boosting it was truly the best model to be used among all three and hence
+   ```bash
+   R2_score = 0.175
+   RMSE = 1.99
 
 **For classification:**
 1) From scatter plot again it was intuitive that I should not use logistic regression because the data does not have linear relation and hence SVM because we know that Logistic regression and SVM share a similar baseline formulation
